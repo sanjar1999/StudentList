@@ -1,4 +1,5 @@
 ﻿using DAL.Models;
+using System.ComponentModel.DataAnnotations;
 #pragma warning disable
 
 namespace DTOs.Models
@@ -11,6 +12,7 @@ namespace DTOs.Models
         public int TeacherId { get; set; }
         public DateTime DateOfCreation { get; set; }
         public int Contract { get; set; }
+        [Range( 0, 5 )]
         public Status Status { get; set; }
         public Teacher Teacher { get; set; }
     }

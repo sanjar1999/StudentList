@@ -16,7 +16,7 @@ namespace StudentList
             services.AddControllers();
             services.AddDbContext<ApplicationContext>( opt =>
                    opt.UseSqlServer( Configuration.GetConnectionString( "DefaultConnection" ) ) );
-            
+
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ITeacherService, TeacherService>();
         }

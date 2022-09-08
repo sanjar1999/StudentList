@@ -10,80 +10,83 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext( typeof( ApplicationContext ) )]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildModel( ModelBuilder modelBuilder )
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation( "ProductVersion", "6.0.8" )
+                .HasAnnotation( "Relational:MaxIdentifierLength", 128 );
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns( modelBuilder, 1L, 1 );
 
-            modelBuilder.Entity("DAL.Models.Student", b =>
+            modelBuilder.Entity( "DAL.Models.Student", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>( "Id" )
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType( "int" );
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn( b.Property<int>( "Id" ), 1L, 1 );
 
-                    b.Property<int>("Contract")
-                        .HasColumnType("int");
+                    b.Property<int>( "Contract" )
+                        .HasColumnType( "int" );
 
-                    b.Property<string>("Country")
+                    b.Property<string>( "Country" )
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType( "nvarchar(max)" );
 
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>( "DateOfCreation" )
+                        .HasColumnType( "datetime2" );
 
-                    b.Property<string>("Name")
+                    b.Property<bool>( "IsDeleted" )
+                        .HasColumnType( "bit" );
+
+                    b.Property<string>( "Name" )
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType( "nvarchar(max)" );
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<int>( "Status" )
+                        .HasColumnType( "int" );
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
+                    b.Property<int>( "TeacherId" )
+                        .HasColumnType( "int" );
 
-                    b.HasKey("Id");
+                    b.HasKey( "Id" );
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex( "TeacherId" );
 
-                    b.ToTable("Students");
-                });
+                    b.ToTable( "Students" );
+                } );
 
-            modelBuilder.Entity("DAL.Models.Teacher", b =>
+            modelBuilder.Entity( "DAL.Models.Teacher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>( "Id" )
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType( "int" );
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn( b.Property<int>( "Id" ), 1L, 1 );
 
-                    b.Property<string>("Name")
+                    b.Property<string>( "Name" )
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType( "nvarchar(max)" );
 
-                    b.HasKey("Id");
+                    b.HasKey( "Id" );
 
-                    b.ToTable("Teachers");
-                });
+                    b.ToTable( "Teachers" );
+                } );
 
-            modelBuilder.Entity("DAL.Models.Student", b =>
+            modelBuilder.Entity( "DAL.Models.Student", b =>
                 {
-                    b.HasOne("DAL.Models.Teacher", "Teacher")
+                    b.HasOne( "DAL.Models.Teacher", "Teacher" )
                         .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey( "TeacherId" )
+                        .OnDelete( DeleteBehavior.Cascade )
                         .IsRequired();
 
-                    b.Navigation("Teacher");
-                });
+                    b.Navigation( "Teacher" );
+                } );
 #pragma warning restore 612, 618
         }
     }

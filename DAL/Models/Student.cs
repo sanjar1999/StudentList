@@ -20,8 +20,10 @@ namespace DAL.Models
         [Required]
         public int Contract { get; set; }
         [Required]
+        [Range( 0, 5 )]
         public Status Status { get; set; }
         public Teacher Teacher { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     public enum Status

@@ -18,17 +18,18 @@ namespace DTOs.Services
         {
             try
             {
-                var list = await _db.Students.Select( x => new StudentDTO
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Country = x.Country,
-                    TeacherId = x.TeacherId,
-                    DateOfCreation = x.DateOfCreation,
-                    Teacher = x.Teacher,
-                    Contract = x.Contract,
-                    Status = x.Status,
-                } ).ToListAsync();
+                var list = await _db.Students.Where( y => y.IsDeleted == false )
+                                             .Select( x => new StudentDTO
+                                             {
+                                                 Id = x.Id,
+                                                 Name = x.Name,
+                                                 Country = x.Country,
+                                                 TeacherId = x.TeacherId,
+                                                 DateOfCreation = x.DateOfCreation,
+                                                 Teacher = x.Teacher,
+                                                 Contract = x.Contract,
+                                                 Status = x.Status,
+                                             } ).ToListAsync();
 
                 return list;
             }
@@ -42,9 +43,19 @@ namespace DTOs.Services
         {
             try
             {
+                if ( id == null )
+                {
+                    throw new ArgumentNullException( nameof( id ) );
+                }
+
                 var dbData = await _db.Students
                                     .Include( x => x.Teacher )
                                     .FirstOrDefaultAsync( x => x.Id == id );
+
+                if ( dbData == null || dbData.IsDeleted == true )
+                {
+                    throw new ArgumentNullException( "Student not found" );
+                }
 
                 var res = new StudentDTO
                 {
@@ -58,11 +69,6 @@ namespace DTOs.Services
                     Teacher = dbData.Teacher,
                 };
 
-                if ( res == null )
-                {
-                    throw new ArgumentException( "Student not found" );
-                }
-
                 return res;
             }
             catch ( Exception e )
@@ -75,6 +81,11 @@ namespace DTOs.Services
         {
             try
             {
+                if ( id == null || studentDTO == null )
+                {
+                    throw new ArgumentNullException( nameof( id ) );
+                }
+
                 var studentUpdate = await _db.Students.FirstOrDefaultAsync( x => x.Id == id );
 
                 if ( studentUpdate == null )
@@ -105,11 +116,12 @@ namespace DTOs.Services
                 {
                     throw new ArgumentNullException( nameof( id ) );
                 }
+
                 var student = _db.Students
-                                          .Where( s => s.Id == id )
+                                          .Where( s => s.Id == id && s.IsDeleted == false )
                                           .FirstOrDefault();
 
-                _db.Students.Remove( student );
+                student.IsDeleted = true;
                 await _db.SaveChangesAsync();
             }
             catch ( Exception e )

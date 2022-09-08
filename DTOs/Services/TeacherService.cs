@@ -8,7 +8,7 @@ namespace DTOs.Services
     public class TeacherService : ITeacherService
     {
         private readonly ApplicationContext _db;
-        public TeacherService(ApplicationContext applicationContext)
+        public TeacherService( ApplicationContext applicationContext )
         {
             _db = applicationContext;
         }
@@ -27,12 +27,12 @@ namespace DTOs.Services
                     Name = teacherDTO.Name,
                 };
 
-                await _db.Teachers.AddAsync(newTeacher);
+                await _db.Teachers.AddAsync( newTeacher );
                 await _db.SaveChangesAsync();
             }
-            catch ( Exception e)
+            catch ( Exception e )
             {
-                throw new ArgumentException(nameof(e));
+                throw new ArgumentException( nameof( e ) );
             }
         }
     }
