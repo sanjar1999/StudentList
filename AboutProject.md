@@ -11,6 +11,7 @@ Have used:
 - REST technology
 - Multilayer architecture
 - SOLID principles
+- Asynchronous programming
 
 Services:
 
